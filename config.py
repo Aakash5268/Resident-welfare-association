@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-
+from dotenv import load_dotenv  
+load_dotenv()
 BASE_DIR = Path(__file__).parent.absolute()
 
 # ==========================================
@@ -34,20 +35,42 @@ for dir_path in [DATA_DIR, LOGS_DIR, ASSETS_DIR, UPLOADS_DIR, BACKUP_DIR, MODELS
     dir_path.mkdir(parents=True, exist_ok=True)
 
 # ==========================================
-# DATABASE CONFIGURATION
+# DATABASE CONFIGURATION (Cloud + Local Seamless)
 # ==========================================
-MYSQL_CONFIG = {
-    "host": os.getenv("MYSQL_HOST", "localhost"),
-    "port": int(os.getenv("MYSQL_PORT", 3307)),
-    "user": os.getenv("MYSQL_USER", "root"),
-    "password": os.getenv("MYSQL_PASSWORD", "DB_PASSWORD"),
-    "database": os.getenv("MYSQL_DATABASE", "rwa_smart_hub"),
-    "charset": "utf8mb4",
-    "pool_size": 20,
-    "pool_recycle": 3600,
-    "autocommit": True,
-    "auth_plugin": "mysql_native_password"
-}
+try:
+    import streamlit as st
+    # Check if we are running on Streamlit Cloud by looking for st.secrets
+    if "mysql" in st.secrets:
+        MYSQL_CONFIG = {
+            "host": st.secrets["mysql"]["host"],
+            "port": int(st.secrets["mysql"]["port"]),
+            "user": st.secrets["mysql"]["user"],
+            "password": st.secrets["mysql"]["password"],
+            "database": st.secrets["mysql"]["database"],
+            "charset": "utf8mb4",
+            "pool_size": 20,
+            "pool_recycle": 3600,
+            "autocommit": True,
+            "auth_plugin": "mysql_native_password",
+            "ssl_verify_identity": True,  # Required for TiDB Serverless
+            "ssl_verify_cert": True       # Required for TiDB Serverless
+        }
+    else:
+        raise KeyError("No Streamlit secrets found, falling back to local config.")
+except (ImportError, KeyError, FileNotFoundError):
+    # Fallback for local testing (using your .env or local MySQL)
+    MYSQL_CONFIG = {
+        "host": os.getenv("MYSQL_HOST", "localhost"),
+        "port": int(os.getenv("MYSQL_PORT", 3307)),
+        "user": os.getenv("MYSQL_USER", "root"),
+        "password": os.getenv("MYSQL_PASSWORD", "DB_PASSWORD"),
+        "database": os.getenv("MYSQL_DATABASE", "rwa_smart_hub"),
+        "charset": "utf8mb4",
+        "pool_size": 20,
+        "pool_recycle": 3600,
+        "autocommit": True,
+        "auth_plugin": "mysql_native_password"
+    }
 
 REDIS_CONFIG = {
     "host": os.getenv("REDIS_HOST", "localhost"),
