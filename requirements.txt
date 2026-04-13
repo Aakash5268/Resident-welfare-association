@@ -26,3 +26,4 @@ psutil
 streamlit
 pandas
 bcrypt
+python-dotenv
