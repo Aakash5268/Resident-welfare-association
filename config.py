@@ -1,15 +1,15 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv  
-load_dotenv()
+# from dotenv import load_dotenv  
+# load_dotenv()
 BASE_DIR = Path(__file__).parent.absolute()
 
 # ==========================================
 # CORE SETTINGS
 # ==========================================
-APP_NAME = "Resident welfare association"
+APP_NAME = "Society Management Hub"
 APP_VERSION = "8.6.0-Titanium-Live-SOC" # Version bumped to reflect Manager integration
-SUPPORT_PHONE = "+91-8826701897"
+SUPPORT_PHONE = "+91-xxxxxxxxxx"
 SUPPORT_EMAIL = "support@Residentwelfareassociation.com"
 MAX_UPLOAD_SIZE_MB = 50
 DEMO_MODE = False
@@ -61,9 +61,9 @@ except (ImportError, KeyError, FileNotFoundError):
     # Fallback for local testing (using your .env or local MySQL)
     MYSQL_CONFIG = {
         "host": os.getenv("MYSQL_HOST", "localhost"),
-        "port": int(os.getenv("MYSQL_PORT", 3307)),
+"port": 3306,
         "user": os.getenv("MYSQL_USER", "root"),
-        "password": os.getenv("MYSQL_PASSWORD", "DB_PASSWORD"),
+        "password": os.getenv("MYSQL_PASSWORD", "Mysql@123"),
         "database": os.getenv("MYSQL_DATABASE", "rwa_smart_hub"),
         "charset": "utf8mb4",
         "pool_size": 20,
