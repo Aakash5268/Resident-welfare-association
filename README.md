@@ -5,8 +5,7 @@
 **Version:** 15.0.0-Titanium-Ultimate  
 **Type:** Residential Welfare Association (RWA) Management System  
 **Tech Stack:** Python 3.10+, Streamlit, MySQL 8.0+  
-**Website:** https://rwasmarthub.com  
-**Support:** support@rwasmarthub.com | +91-1800-SMART-RWA
+**Website:** https://rwasmarthub.com 
 
 ---
 
